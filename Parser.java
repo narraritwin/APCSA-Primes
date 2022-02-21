@@ -21,21 +21,31 @@ public class Parser {
             // The first 4999 are formatted nicely for us to work with
             // (after that, we require manual formatting for Java to parse ir properly)
             ArrayList<Prime> primes = new ArrayList<>();
+            // while (primes.size() < /* 4999 */ 5050) {
             while (sc.hasNext()) {
                 String s = sc.nextLine();
+
                 // Too many spaces corresponds to the line not containing a prime
                 if (s.startsWith("      ")) continue;
+
                 // Remove leading / trailing whitespace
                 // and turn multiple spaces into one space
                 s = s.trim().replace("\\s+", " ");
+
+                // The end of the primes
                 if (s.contains("---")) break;
+
                 StringTokenizer st = new StringTokenizer(s);
                 // System.out.println("Current line: \"" + s + "\"");
-                String srank = st.nextToken();
-                if (Character.isAlphabetic(srank.charAt(srank.length()-1))) {
-                    srank = srank.substring(0, srank.length() - 1);
-                }
-                int rank = Integer.parseInt(srank);
+
+                st.nextToken();
+                // If we needed to extract the rank:
+                // String srank = st.nextToken();
+                // if (Character.isAlphabetic(srank.charAt(srank.length()-1))) {
+                //     srank = srank.substring(0, srank.length() - 1);
+                // }
+                // int rank = Integer.parseInt(srank);
+
                 String formula;
                 if (s.contains("other")) {
                     formula = joinStringTokenizer(st);
@@ -49,12 +59,15 @@ public class Parser {
                     st = new StringTokenizer(s);
                     formula = formula.substring(0, formula.length()-1) + st.nextToken();
                 }
+
                 if (!st.hasMoreTokens()) {
                     s = sc.nextLine().trim().replace("\\s+", " ");
                     st = new StringTokenizer(s);
                 }
                 int digitCount = Integer.parseInt(st.nextToken());
-                String _who = st.nextToken();
+                st.nextToken();
+                // If we wanted the author:
+                // String _who = st.nextToken();
                 int year = Integer.parseInt(st.nextToken());
                 String comment = joinStringTokenizer(st);
                 primes.add(new Prime(formula, digitCount, year, comment));
@@ -62,32 +75,11 @@ public class Parser {
             }
 
             sc.close();
-
             return primes;
         }
         catch (IOException e) {
             e.printStackTrace();
-
             return new ArrayList<>();
         }
-    }
-    public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
-        System.out.println("Parsing primes...");
-        ArrayList<Prime> primes = Parser.parse("https://primes.utm.edu/primes/lists/all.txt");
-        System.out.println("Primes parsed!\n");
-
-        // PrintWriter pw = new PrintWriter("primes.txt", "UTF-8");
-        // for (Prime p : primes) pw.println(p);
-        // pw.close();
-
-        Scanner sc = new Scanner(System.in);
-        while (true) {
-            System.out.println("Enter the index of a prime you want to know about: ");
-            int i = sc.nextInt();
-            if (i < 0 || i > primes.size()) break;
-            System.out.println(primes.get(i));
-            System.out.println();
-        }
-        sc.close();
     }
 }
