@@ -21,7 +21,6 @@ public class Parser {
             // The first 4999 are formatted nicely for us to work with
             // (after that, we require manual formatting for Java to parse ir properly)
             ArrayList<Prime> primes = new ArrayList<>();
-            // while (primes.size() < /* 4999 */ 5050) {
             while (sc.hasNext()) {
                 String s = sc.nextLine();
                 // Too many spaces corresponds to the line not containing a prime
