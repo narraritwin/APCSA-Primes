@@ -9,7 +9,10 @@ public class Parser {
         if (s.length() > 0) s = s.substring(0, s.length()-1);
         return s;
     }
-    public static ArrayList<Prime> parse(String _url) {
+
+    public static ArrayList<Prime> parse1(String _url) {
+        ArrayList<Prime> primes = new ArrayList<>();
+
         try {
             URL url = new URL(_url);
             Scanner sc = new Scanner(url.openStream());
@@ -20,13 +23,19 @@ public class Parser {
 
             // The first 4999 are formatted nicely for us to work with
             // (after that, we require manual formatting for Java to parse ir properly)
-            ArrayList<Prime> primes = new ArrayList<>();
-            // while (primes.size() < /* 4999 */ 5050) {
             while (sc.hasNext()) {
                 String s = sc.nextLine();
 
                 // Too many spaces corresponds to the line not containing a prime
-                if (s.startsWith("      ")) continue;
+                // But that usually means it contains sonme information about the previous prime
+                if (s.startsWith("      ")) {
+                    if (primes.get(primes.size()-1).comment.length() == 0) {
+                        primes.get(primes.size()-1).comment = s.trim();
+                    } else {
+                        primes.get(primes.size()-1).comment += " " + s.trim();
+                    }
+                    continue;
+                }
 
                 // Remove leading / trailing whitespace
                 // and turn multiple spaces into one space
@@ -75,11 +84,61 @@ public class Parser {
             }
 
             sc.close();
-            return primes;
         }
         catch (IOException e) {
             e.printStackTrace();
-            return new ArrayList<>();
         }
+
+        return primes;
+    }
+
+    public static ArrayList<Prime> parse2(String _url) {
+        ArrayList<Prime> primes = new ArrayList<>();
+
+        try {
+            URL url = new URL(_url);
+            Scanner sc = new Scanner(url.openStream());
+            // First 491 lines have no primes; just information
+            for (int i = 0; i < 491; ++i) sc.nextLine();
+
+            while (sc.hasNextLine()) {
+                String sa = sc.nextLine(); // Value of a
+                if (!sa.startsWith("    <td align=\"middle\" width=\"110\" height=\"19\">")) continue;
+
+                // There's one edge case that's annoying to deal with
+                if (sa.length() == 47) {
+                    sc.nextLine();
+                    sc.nextLine();
+                    String s = sc.nextLine().trim();
+                    sa += s.substring(0, s.length()-6);
+                    sc.nextLine();
+                    sa += sc.nextLine();
+                }
+                String sb = sc.nextLine(); // Value of b
+                String sd = sc.nextLine(); // Number of digits
+
+                sa = sa.substring(47, sa.length()-5).replace("&nbsp;", "").trim();
+                sb = sb.substring(46, sb.length()-5).replace("&nbsp;", "").trim();
+                sd = sd.substring(47, sd.length()-5).replace("&nbsp;", "").trim();
+
+                int a = Integer.parseInt(sa);
+                int b = Integer.parseInt(sb);
+                int d = Integer.parseInt(sd);
+                String formula = String.format("%d^%d+%d^%d", a, b, b, a);
+                // Or: String formula = a+"^"+b+"+"+b+"^"+a;
+
+                System.out.println(formula);
+
+                // I'm putting it as 2005 because the parsing is hard
+                primes.add(new Prime(formula, d, 2005, "Of the form a^b+b^a"));
+                while (sc.hasNextLine() && !sc.nextLine().equals("  <tr>"));
+            }
+            sc.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return primes;
     }
 }
