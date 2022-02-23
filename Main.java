@@ -44,7 +44,7 @@ public class Main {
 
     public static void main(String[] args) {
         ArrayList<Prime> primes = getPrimes(true);
-        System.out.println("We have " + primes.size() + " primes for you!\n");
+        /*System.out.println("We have " + primes.size() + " primes for you!\n");
 
         Scanner sc = new Scanner(System.in);
         while (true) {
@@ -55,6 +55,36 @@ public class Main {
             System.out.println(primes.get(i));
             System.out.println();
         }
-        sc.close();
+        sc.close();*/
+        //Interacting with the User
+        
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Hello!");
+        sleep(1500);
+        System.out.println("This program contains " + primes.size() + " of the largest prime numbers.");
+        sleep(2000);
+        System.out.println("What would you like to do?\n");
+        sleep(2000);
+        while(true){
+            System.out.println("1: See the list of primes");
+            sleep(500);
+            System.out.println("2: Find the nth largest prime (1-5000)");
+            sleep(500);
+            System.out.println("3: stop");
+            int choice = scan.nextInt();
+            if(choice == 3)break;
+            else if(choice == 1){
+                System.out.println("Here is the list of primes:");
+                for(int i = 0; i < primes.size(); ++i){
+                    System.out.println(primes.get(i));
+                }
+            }else if(choice == 2){
+                System.out.println("Which prime would you like to find?");
+                int n = scan.nextInt();
+                System.out.print("The " + n + "th prime is " + primes.get(n-1) + ".");
+            }
+            System.out.println("\n");
+        }
+
     }
 }
