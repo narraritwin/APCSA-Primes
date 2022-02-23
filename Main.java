@@ -72,8 +72,10 @@ public class Main {
             sleep(500);
             System.out.println("3: stop");
             int choice = scan.nextInt();
-            if(choice == 3)break;
-            else if(choice == 1){
+            if(choice == 3){
+                System.out.print("Bye!");
+                break;
+            }else if(choice == 1){
                 System.out.println("Here is the list of primes:");
                 for(int i = 0; i < primes.size(); ++i){
                     System.out.println(primes.get(i));
