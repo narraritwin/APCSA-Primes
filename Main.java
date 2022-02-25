@@ -30,22 +30,19 @@ public class Main {
         if (progress) System.out.println("Parsing special primes...");
         System.out.print("[");
         Sprimes = Parser.parse2("https://web.archive.org/web/20160426065100/http://www.leyland.vispa.com/numth/primes/xyyx.htm");
-        for(int i = 0; i < 12; ++i){sleep(75);System.out.print("=");}
         for (int i = 0; i < RANDOM_PRIME_COUNT; ++i) {
-           Sprimes.add(Generator.randomPrime());
+            if(i % (RANDOM_PRIME_COUNT /18) == (RANDOM_PRIME_COUNT/18-1)) System.out.print("=");
+            Sprimes.add(Generator.randomPrime());
         }
-        for(int i = 0; i < 12; ++i){sleep(75);System.out.print("=");}
         for (int pw = 128; pw >= 6; --pw) {
+            if(pw%7==0) System.out.print("=");
             Sprimes.add(Generator.primeAbovePowerOfTen(pw));
         }
-        for(int i = 0; i < 12; ++i){sleep(75);System.out.print("=");}
         System.out.println("]");
         if (progress) System.out.println("Special primes parsed!\n");
         if (progress) System.out.println("Parsing small primes...");
         System.out.print("[");
-        for(int i = 0; i < 14; ++i){sleep(75);System.out.print("=");}
-        Smprimes = Parser.parse3("https://www2.cs.arizona.edu/icon/oddsends/primes.htm", 50000-(Sprimes.size()+Lprimes.size()));
-        for(int i = 0; i < 22; ++i){sleep(75);System.out.print("=");}
+        Smprimes = Generator.smallPrimes("https://www2.cs.arizona.edu/icon/oddsends/primes.htm", 50000-(Sprimes.size()+Lprimes.size()));
         System.out.println("]");
         if (progress) System.out.println("Small primes parsed!\n");
         /* In my opinion, primes above powers of two are not as
@@ -202,4 +199,3 @@ public class Main {
 
     }
 }
-
