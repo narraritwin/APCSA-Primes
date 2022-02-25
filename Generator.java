@@ -1,5 +1,6 @@
 import java.math.BigInteger;
 import java.util.Random;
+import java.util.ArrayList;
 
 public class Generator {
     private static final int minBits = 330;
@@ -61,5 +62,28 @@ public class Generator {
             p = p.add(BigInteger.TWO);
         }
         return new Prime(p, "Above a power of two");
+    }
+
+    public static ArrayList<Prime> smallPrimes(String _url, int Num_of_Primes) {
+        ArrayList<Prime> primes = new ArrayList<>();
+        ArrayList<Integer> prime = new ArrayList<>();prime.add(2);
+        //Since it is a very few number of primes (<50,000) small primes, we can just compute them.
+        int curr = 3;
+        while(prime.size()!=Num_of_Primes){
+            boolean isPrime = true;
+            for(Integer i : prime){
+                if(curr%i==0){
+                    isPrime = false;
+                    break;
+                }
+            }
+            if(isPrime){
+                prime.add(curr);
+                if(prime.size()%(Num_of_Primes/36)==0) System.out.print("=");
+            }
+            curr++;
+        }
+        for(int i = 0; i < prime.size(); ++i)primes.add(new Prime(i+1, prime.get(i)));
+        return primes;
     }
 }
