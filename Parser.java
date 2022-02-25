@@ -27,7 +27,7 @@ public class Parser {
                 String s = sc.nextLine();
 
                 // Too many spaces corresponds to the line not containing a prime
-                // But that usually means it contains sonme information about the previous prime
+                // But that usually means it contains some information about the previous prime
                 if (s.startsWith("      ")) {
                     if (primes.get(primes.size()-1).comment.length() == 0) {
                         primes.get(primes.size()-1).comment = s.trim();
@@ -127,7 +127,7 @@ public class Parser {
                 String formula = String.format("%d^%d+%d^%d", a, b, b, a);
                 // Or: String formula = a+"^"+b+"+"+b+"^"+a;
 
-                System.out.println(formula);
+                //System.out.println(formula);
 
                 // I'm putting it as 2005 because the parsing is hard
                 primes.add(new Prime(formula, d, 2005, "Of the form a^b+b^a"));
@@ -139,6 +139,26 @@ public class Parser {
             e.printStackTrace();
         }
 
+        return primes;
+    }
+
+    public static ArrayList<Prime> parse3(String _url, int Num_of_Primes) {
+        ArrayList<Prime> primes = new ArrayList<>();
+        ArrayList<Integer> prime = new ArrayList<>();prime.add(2);
+        //Since its only <50,000 small primes, we can just compute them.
+        int curr = 3;
+        while(prime.size()!=Num_of_Primes){
+            boolean isPrime = true;
+            for(Integer i : prime){
+                if(curr%i==0){
+                    isPrime = false;
+                    break;
+                }
+            }
+            if(isPrime) prime.add(curr);
+            curr++;
+        }
+        for(int i = 0; i < prime.size(); ++i)primes.add(new Prime(i+1, prime.get(i)));
         return primes;
     }
 }
