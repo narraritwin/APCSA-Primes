@@ -145,7 +145,7 @@ public class Parser {
     public static ArrayList<Prime> parse3(String _url, int Num_of_Primes) {
         ArrayList<Prime> primes = new ArrayList<>();
         ArrayList<Integer> prime = new ArrayList<>();prime.add(2);
-        //Since its only <50,000 small primes, we can just compute them.
+        //Since it is a very few number of primes (<50,000) small primes, we can just compute them.
         int curr = 3;
         while(prime.size()!=Num_of_Primes){
             boolean isPrime = true;
