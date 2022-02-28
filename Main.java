@@ -57,6 +57,7 @@ public class Main {
     }
 
     public static boolean isPrime(BigInteger b){
+        //Uses built-in libraries to determine whether BigInteger is prime.
         return b.isProbablePrime(100);
     }
 
