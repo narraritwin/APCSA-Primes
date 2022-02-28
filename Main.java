@@ -9,6 +9,7 @@ public class Main {
     private static final int RANDOM_PRIME_COUNT = 1000;
 
     public static void sleep(int time){
+        //Forces program to sleep, allows modification of speed for User Interface.
         try{
             TimeUnit.MILLISECONDS.sleep(time);
         }catch(Exception e){
@@ -17,6 +18,9 @@ public class Main {
     }
 
     private static void getPrimes(boolean progress) {
+        
+        //Accessing primes read/generated from other programs.
+        
         if (progress) System.out.println("Parsing large primes...");
         Lprimes = Parser.parse1("https://primes.utm.edu/primes/lists/all.txt");
         System.out.print("[");
@@ -45,14 +49,6 @@ public class Main {
         Smprimes = Generator.smallPrimes("https://www2.cs.arizona.edu/icon/oddsends/primes.htm", 50000-(Sprimes.size()+Lprimes.size()));
         System.out.println("]");
         if (progress) System.out.println("Small primes parsed!\n");
-        /* In my opinion, primes above powers of two are not as
-         * interesting as primes above a power of 10 (because
-         * the latter ends up having so many consecutive zeros) */
-        // System.out.println("...");
-        // for (int pw = 512; pw >= 20; --pw) {
-        //     newPrimes.add(Generator.primeAbovePowerOfTwo(pw));
-        // }
-        //if (progress) System.out.println("Primes above powers generated!\n");
 
         Collections.sort(Sprimes);
         Collections.reverse(Sprimes);
@@ -75,6 +71,7 @@ public class Main {
         System.out.println("What would you like to do?\n");
         sleep(1000);
         while(true){
+            //5 options in main menu
             System.out.println("1: Find out some Small primes");
             sleep(300);
             System.out.println("2: Find out some Large primes");
@@ -87,6 +84,7 @@ public class Main {
             System.out.println();
             int choice = scan.nextInt();
             if(choice == 1){
+                //3 choices in sub-menu
                 while(true){
                     System.out.println("Would you like to..");
                     sleep(200);
@@ -118,6 +116,7 @@ public class Main {
                     }
                 }
             }else if(choice == 2){
+                //3 choices in sub-menu
                 while(true){
                     System.out.println("Would you like to..");
                     sleep(200);
@@ -149,6 +148,7 @@ public class Main {
                     }
                 }
             }else if(choice == 3){
+                ///3 choices in sub-menu
                 while(true){
                     System.out.println("Would you like to..");
                     sleep(200);
@@ -180,6 +180,7 @@ public class Main {
                     }
                 }
             }else if(choice == 4){
+                //Asks user for any size number, answers using BigInteger library 
                 while(true){
                     System.out.println("Which number would you like to test? (press -1 to exit)");
                     BigInteger choice2 = scan.nextBigInteger();
