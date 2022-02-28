@@ -5,6 +5,9 @@ import java.net.*;
 
 public class ReadPrimes{
     public static void main(String[] args) throws Exception{ 
+        
+        //This is an alternate method of reading primes from database using Scanner class.
+        
         ArrayList<ArrayList<String>> primes = new ArrayList<ArrayList<String>>();
         URL p = new URL("https://primes.utm.edu/primes/lists/all.txt");
         Scanner s = new Scanner(p.openStream());
