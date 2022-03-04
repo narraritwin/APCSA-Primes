@@ -38,7 +38,19 @@ public class Main {
         System.out.print(s);
         sleep(ms);
     }
-
+    
+    /**
+     * Uses the builtin function {@code BigInteger.isProbablePrime} to test
+     * if a number is prime. See Prime.java; with certainty set to 60 there
+     * is a one-in-a-quintillion chance that the number is not actually prime.
+     * @param p     The number to test for primality
+     * @return      True or False, depending on if the number is prime
+     * @see         Prime.CERTAINTY
+     */
+    public static boolean isPrime(BigInteger p) {
+        return p.isProbablePrime(Prime.CERTAINTY);
+    }
+    
     /**
      * Collects primes from all the various sources
      * @param progress  Whether to print out the current progress or not
