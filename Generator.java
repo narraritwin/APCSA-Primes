@@ -1,6 +1,7 @@
 import java.math.BigInteger;
 import java.util.Random;
 import java.util.ArrayList;
+import java.lang.Math;
 
 /**
  * A class that generates primes. See each function for the relevant information.
@@ -97,9 +98,10 @@ public class Generator {
      * @param n     The number to test for primality
      * @return      Whether the specified number is prime
      */
-    public static boolean isPrime(int n) {
+    public static boolean isPrime(long n) {
         if (n < 2) return false;
-        for (int i = 2; i*i <= n; i++) {
+        const long limit = Math.sqrt(n);
+        for (int i = 2; i <= limit; i++) {
             if (n%i == 0) return false;
         }
         return true;
@@ -118,6 +120,8 @@ public class Generator {
         for (int p = 2; primes.size() < primeCount; p++) {
             if (!isPrime(p)) continue;
             primes.add(new Prime(p, "Small prime"));
+            // The following is printed out to show the progress of this 
+            // function to the user.
             if (primes.size() % part == 0) {
                 System.out.print("=");
             }
