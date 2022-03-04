@@ -11,7 +11,7 @@ public class Generator {
     /**
      * Generates a random prime with between minBits and maxBits binary digits (inclusive).
      * Note that each bit length does not have an equal probability of occurring.
-     * @return A BigInteger prime in the specified interval
+     * @return  A BigInteger prime in the specified interval
      */
     public static BigInteger generateRandomPrime() {
         Random rng = new Random();
@@ -25,8 +25,8 @@ public class Generator {
     /**
      * Generates a random prime with between minBits and maxBits binary digits (inclusive).
      * Note that each bit length does not have an equal probability of occurring.
-     * @return A prime in the specified interval, but of type Prime
-     * @see generateRandomPrime
+     * @return  A prime in the specified interval, but of type Prime
+     * @see     generateRandomPrime
      */
     public static Prime randomPrime() {
         String p = generateRandomPrime().toString();
@@ -35,7 +35,7 @@ public class Generator {
 
     /**
      * Generates the smallest prime above 10^pw
-     * @return That prime, with type Prime
+     * @return  That prime, with type Prime
      */
     public static Prime primeAbovePowerOfTen(int pw) {
         if (pw == 0) return new Prime(BigInteger.TWO, "Above a power of ten");
@@ -51,14 +51,7 @@ public class Generator {
          */
         if ((pw & -pw) == pw) p = p.add(BigInteger.ONE);
         else p = p.add(BigInteger.valueOf(3));
-
-        int lastDigit;
-        if (pw == 0)        lastDigit = 1;
-        else if (pw%4 == 0) lastDigit = 6;
-        else if (pw%4 == 1) lastDigit = 2;
-        else if (pw%4 == 2) lastDigit = 4;
-        else                lastDigit = 8;
-        lastDigit += (pw & -pw) == pw ? 1 : 3;
+        int lastDigit = (pw & -pw) == pw ? 1 : 3;
 
         while (!p.isProbablePrime(Prime.CERTAINTY)) {
             if (lastDigit == 1) {
@@ -80,7 +73,8 @@ public class Generator {
 
     /**
      * Generates the smallest prime above 2^pw
-     * @return That prime, with type Prime
+     * @param pw    The power of two to start at
+     * @return      That prime, with type Prime
      */
     public static Prime primeAbovePowerOfTwo(int pw) {
         BigInteger p = BigInteger.TWO.pow(pw);
@@ -97,10 +91,11 @@ public class Generator {
     }
 
     /**
-     * Tests primality in O(sqrt n); Basically, this function runs
-     * almost instantly for all ints n (although if changed to a
-     * long, it will take noticable time for n > 10^16 or so)
-     * @return Whether the specified number is prime
+     * Tests primality in O(√n) by trial division; runs almost
+     * instantly for all ints n (although if changed to a long,
+     * it will take noticable time for n > 10¹⁶ or so)
+     * @param n     The number to test for primality
+     * @return      Whether the specified number is prime
      */
     public static boolean isPrime(int n) {
         if (n < 2) return false;
@@ -112,14 +107,14 @@ public class Generator {
 
     /**
      * Finds the first primeCount primes
-     * @return an ArrayList<Prime> that contains all those primes
+     * @param primeCount    The number of primes to find
+     * @return              an {@code ArrayList<Prime>} with those primes
      */
-    public static ArrayList<Prime> smallPrimes(String _url, int primeCount) {
+    public static ArrayList<Prime> smallPrimes(int primeCount) {
         final int part = primeCount / 36;
         ArrayList<Prime> primes = new ArrayList<>();
         // Because we're only sratching for a few primes, we can brute
         // force the computation (we're using O(sqrt n) primality testing).
-        int p = 2;
         for (int p = 2; primes.size() < primeCount; p++) {
             if (!isPrime(p)) continue;
             primes.add(new Prime(p, "Small prime"));
