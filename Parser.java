@@ -3,6 +3,11 @@ import java.io.*;
 import java.net.URL;
 
 public class Parser {
+    /**
+     * A utility function to join a {@code StringTokenizer} with extra tokens into a String.
+     * @param st    The {@code StringTokenizer} to join
+     * @return      The {@code String} after the {@code StringTokenizer} has been joined
+     */
     public static String joinStringTokenizer(StringTokenizer st) {
         String s = "";
         while (st.hasMoreTokens()) s += st.nextToken() + " ";
@@ -10,6 +15,12 @@ public class Parser {
         return s;
     }
 
+    /**
+     * Parses the largest known primes from
+     * <a href="https://primes.utm.edu/primes/lists/all.txt">primes.utm.edu</a>.
+     * @param _url  The url to parse from
+     * @return      An {@code ArrayList<Prime>} containing the parsed prmies
+     */
     public static ArrayList<Prime> parse1(String _url) {
         ArrayList<Prime> primes = new ArrayList<>();
 
@@ -27,7 +38,7 @@ public class Parser {
                 String s = sc.nextLine();
 
                 // Too many spaces corresponds to the line not containing a prime
-                // But that usually means it contains some information about the previous prime
+                // But that usually means it contains sonme information about the previous prime
                 if (s.startsWith("      ")) {
                     if (primes.get(primes.size()-1).comment.length() == 0) {
                         primes.get(primes.size()-1).comment = s.trim();
@@ -92,6 +103,12 @@ public class Parser {
         return primes;
     }
 
+    /**
+     * Parses primes of the form aᵇ+bᵃ from
+     * <a href="https://web.archive.org/web/20160426065100/http://www.leyland.vispa.com/numth/primes/xyyx.htm">here</a>.
+     * @param _url  The url to parse from
+     * @return      An {@code ArrayList<Prime>} containing the parsed prmies
+     */
     public static ArrayList<Prime> parse2(String _url) {
         ArrayList<Prime> primes = new ArrayList<>();
 
@@ -126,8 +143,6 @@ public class Parser {
                 int d = Integer.parseInt(sd);
                 String formula = String.format("%d^%d+%d^%d", a, b, b, a);
                 // Or: String formula = a+"^"+b+"+"+b+"^"+a;
-
-                //System.out.println(formula);
 
                 // I'm putting it as 2005 because the parsing is hard
                 primes.add(new Prime(formula, d, 2005, "Of the form a^b+b^a"));
