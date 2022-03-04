@@ -2,9 +2,17 @@ import java.math.BigInteger;
 import java.util.Random;
 import java.util.ArrayList;
 
+/**
+ * A class that generates primes. See each function for the relevant information.
+ */
 public class Generator {
     private static final int minBits = 330;
     private static final int maxBits = 420;
+    /**
+     * Generates a random prime with between minBits and maxBits binary digits (inclusive).
+     * Note that each bit length does not have an equal probability of occurring.
+     * @return A BigInteger prime in the specified interval
+     */
     public static BigInteger generateRandomPrime() {
         Random rng = new Random();
         BigInteger p = BigInteger.ZERO;
@@ -14,11 +22,21 @@ public class Generator {
         }
         return p;
     }
+    /**
+     * Generates a random prime with between minBits and maxBits binary digits (inclusive).
+     * Note that each bit length does not have an equal probability of occurring.
+     * @return A prime in the specified interval, but of type Prime
+     * @see generateRandomPrime
+     */
     public static Prime randomPrime() {
         String p = generateRandomPrime().toString();
         return new Prime(p, p.length(), 2022, "Random prime");
     }
 
+    /**
+     * Generates the smallest prime above 10^pw
+     * @return That prime, with type Prime
+     */
     public static Prime primeAbovePowerOfTen(int pw) {
         if (pw == 0) return new Prime(BigInteger.TWO, "Above a power of ten");
         BigInteger p = BigInteger.TEN.pow(pw);
@@ -27,10 +45,20 @@ public class Generator {
          * other than 1. Proof: Let's say that divisor is some prime p, then
          * 10^(n/p)+1 divides n from sum of p-th powers formula
          * So 10^n+1 can only possibly be prime when n is a power of two
-         * Case in point: 11, 101; however actually no more are known */
-        int lastDigit = (pw & -pw) == pw ? 1 : 3;
+         * Case in point: 11, 101; however actually no more are known
+         * Note that (pw & -pw) == pw checks if pw is a power of two or zero
+         * (works because of the two's complement representation of integers)
+         */
         if ((pw & -pw) == pw) p = p.add(BigInteger.ONE);
         else p = p.add(BigInteger.valueOf(3));
+
+        int lastDigit;
+        if (pw == 0)        lastDigit = 1;
+        else if (pw%4 == 0) lastDigit = 6;
+        else if (pw%4 == 1) lastDigit = 2;
+        else if (pw%4 == 2) lastDigit = 4;
+        else                lastDigit = 8;
+        lastDigit += (pw & -pw) == pw ? 1 : 3;
 
         while (!p.isProbablePrime(Prime.CERTAINTY)) {
             if (lastDigit == 1) {
@@ -50,6 +78,10 @@ public class Generator {
         return new Prime(p, "Above a power of ten");
     }
 
+    /**
+     * Generates the smallest prime above 2^pw
+     * @return That prime, with type Prime
+     */
     public static Prime primeAbovePowerOfTwo(int pw) {
         BigInteger p = BigInteger.TWO.pow(pw);
 
@@ -64,26 +96,37 @@ public class Generator {
         return new Prime(p, "Above a power of two");
     }
 
-    public static ArrayList<Prime> smallPrimes(String _url, int Num_of_Primes) {
-        ArrayList<Prime> primes = new ArrayList<>();
-        ArrayList<Integer> prime = new ArrayList<>();prime.add(2);
-        //Since it is a very few number of primes (<50,000) small primes, we can just compute them.
-        int curr = 3;
-        while(prime.size()!=Num_of_Primes){
-            boolean isPrime = true;
-            for(Integer i : prime){
-                if(curr%i==0){
-                    isPrime = false;
-                    break;
-                }
-            }
-            if(isPrime){
-                prime.add(curr);
-                if(prime.size()%(Num_of_Primes/36)==0) System.out.print("=");
-            }
-            curr++;
+    /**
+     * Tests primality in O(sqrt n); Basically, this function runs
+     * almost instantly for all ints n (although if changed to a
+     * long, it will take noticable time for n > 10^16 or so)
+     * @return Whether the specified number is prime
+     */
+    public static boolean isPrime(int n) {
+        if (n < 2) return false;
+        for (int i = 2; i*i <= n; i++) {
+            if (n%i == 0) return false;
         }
-        for(int i = 0; i < prime.size(); ++i)primes.add(new Prime(i+1, prime.get(i)));
+        return true;
+    }
+
+    /**
+     * Finds the first primeCount primes
+     * @return an ArrayList<Prime> that contains all those primes
+     */
+    public static ArrayList<Prime> smallPrimes(String _url, int primeCount) {
+        final int part = primeCount / 36;
+        ArrayList<Prime> primes = new ArrayList<>();
+        // Because we're only sratching for a few primes, we can brute
+        // force the computation (we're using O(sqrt n) primality testing).
+        int p = 2;
+        for (int p = 2; primes.size() < primeCount; p++) {
+            if (!isPrime(p)) continue;
+            primes.add(new Prime(p, "Small prime"));
+            if (primes.size() % part == 0) {
+                System.out.print("=");
+            }
+        }
         return primes;
     }
 }
