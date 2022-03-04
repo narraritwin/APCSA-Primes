@@ -59,19 +59,23 @@ public class Main {
         if (progress) System.out.println("Parsing large primes...");
         largePrimes = Parser.parse1("https://primes.utm.edu/primes/lists/all.txt");
         if (progress) System.out.print("[");
-        for (int i = 0; i < 36; ++i) print("=", 75);
+        for (int i = 0; i < 36; i++) {
+            print("=", 75);
+        }
         if (progress) System.out.println("]\nLarge primes parsed!\n");
 
+        
         if (progress) System.out.print("Parsing special primes...\n[");
         specialPrimes = Parser.parse2("https://web.archive.org/web/20160426065100/http://www.leyland.vispa.com/numth/primes/xyyx.htm");
         final int CHUNK = RANDOM_PRIME_COUNT / 35;
-        for (int i = 0; i < RANDOM_PRIME_COUNT; ++i) {
+        for (int i = 0; i < RANDOM_PRIME_COUNT; i++) {
             if (progress && i % CHUNK == CHUNK-1) System.out.print("=");
             specialPrimes.add(Generator.randomPrime());
         }
-        for (int pw = 128; pw >= 6; --pw) {
+        for (int pw = 128; pw >= 6; pw--) {
             specialPrimes.add(Generator.primeAbovePowerOfTen(pw));
         }
+        
         if (progress) {
             System.out.println("]");
             System.out.println("Special primes parsed!\n");
