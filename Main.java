@@ -81,18 +81,6 @@ public class Main {
     }
 
     /**
-     * Uses the builtin function {@code BigInteger.isProbablePrime} to test
-     * if a number is prime. See Prime.java; with certainty set to 60 there
-     * is a one-in-a-quintillion chance that the number is not actually prime.
-     * @param p     The number to test for primality
-     * @return      True or False, depending on if the number is prime
-     * @see         Prime.CERTAINTY
-     */
-    public static boolean isPrime(BigInteger p) {
-        return p.isProbablePrime(Prime.CERTAINTY);
-    }
-
-    /**
      * The main function that provides a User Interface (through
      * the commandline) to get information about primes.
      */
@@ -215,7 +203,7 @@ public class Main {
                     if (choice2.intValue() == -1) {
                         System.out.println();
                         break;
-                    } else if (isPrime(choice2)) {
+                    } else if (Prime.isPrime(choice2)) {
                         System.out.println("The number " + choice2 + " is prime!\n");
                     } else {
                         System.out.println("The number " + choice2 + " is not prime!\n");
