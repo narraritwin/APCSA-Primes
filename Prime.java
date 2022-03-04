@@ -70,7 +70,7 @@ public class Prime implements Comparable<Prime> {
         return comment.equals("") ? s : s + " (" + this.comment + ")";
     }
 
-    // @Override
+    @Override
     /**
      * <p>Comparator for Primes</p>
      * 
