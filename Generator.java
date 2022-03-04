@@ -100,7 +100,7 @@ public class Generator {
      */
     public static boolean isPrime(long n) {
         if (n < 2) return false;
-        const long limit = Math.sqrt(n);
+        final long limit = Math.sqrt(n);
         for (int i = 2; i <= limit; i++) {
             if (n%i == 0) return false;
         }
