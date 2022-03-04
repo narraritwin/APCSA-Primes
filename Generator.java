@@ -114,7 +114,7 @@ public class Generator {
      */
     public static ArrayList<Prime> smallPrimes(int primeCount) {
         final int part = primeCount / 36;
-        ArrayList<Prime> primes = new ArrayList<>();
+        ArrayList<Prime> primes = new ArrayList<Prime>();
         // Because we're only searching for a few primes, we can brute
         // force the computation (we're using O(sqrt n) primality testing).
         for (int p = 2; primes.size() < primeCount; p++) {
