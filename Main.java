@@ -219,7 +219,7 @@ public class Main {
                     if (choice2.intValue() == -1) {
                         System.out.println();
                         break;
-                    } else if (Prime.isPrime(choice2)) {
+                    } else if (isPrime(choice2)) {
                         System.out.println("The number " + choice2 + " is prime!\n");
                     } else {
                         System.out.println("The number " + choice2 + " is not prime!\n");
