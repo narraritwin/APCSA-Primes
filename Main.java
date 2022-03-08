@@ -111,12 +111,13 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         println("What would you like to do?\n", 1000);
         while (true) {
-            // 5 options in main menu
+            // 6 options in main menu
             println("1: Find out about some small primes", 300);
             println("2: Find out about some large primes", 300);
             println("3: Find out about some special primes", 300);
             println("4: Find out if a number is prime", 300);
-            println("5: stop\n", 0);
+            println("5: Find out the BEST function to fit the first n primes", 300);
+            println("6: stop\n", 0);
             int choice = sc.nextInt();
             if (choice == 1) {
                 // 3 choices in sub-menu
@@ -223,6 +224,24 @@ public class Main {
                         System.out.println("The number " + choice2 + " is prime!\n");
                     } else {
                         System.out.println("The number " + choice2 + " is not prime!\n");
+                    }
+                }
+            } else if (choice == 5) {
+                println("You have selected the BEST function section.\n", 1000);
+                println("This part of our code will create a polynomial which will fit to the first n primes using regression techniques.\n", 2000);
+                while (true) {
+                    System.out.println("How many primes would you like to fit? (press -1 to exit)");
+                    int choice2 = sc.nextInt();
+                    if (choice2 == -1) {
+                        System.out.println();
+                        break;
+                    } else if (choice2 < 1) {
+                        System.out.println("Invalid choice! Please choose a number greater than 0.\n");
+                        continue;
+                    } else {
+                        System.out.println("Here is the best function to fit the first " + choice2 + " primes:");
+                        Regression.gradDescent(choice2);
+                        System.out.println();
                     }
                 }
             } else {
